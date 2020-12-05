@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.house.rent.mapper.UserMapper" >
+    <resultMap id="UserMap" type="com.house.rent.model.User">
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="pname" property="pname" jdbcType="VARCHAR" />
+        <result column="username" property="username" jdbcType="VARCHAR" />
+        <result column="password" property="password" jdbcType="VARCHAR" />
+        <result column="userface" property="userface" jdbcType="VARCHAR" />
+        <result column="token" property="token" jdbcType="VARCHAR" />
+        <result column="create_time" property="createtime" jdbcType="DATE" />
+        <result column="type" property="type" jdbcType="INTEGER" />
+    </resultMap>
+    <insert id="addUser" parameterType="com.house.rent.model.User">
+        insert into user(pname,userface,username,password,create_time)
+        values(#{pname},#{userface},#{username},#{password},#{createtime})
+    </insert>
+    <select id="findByPname" parameterType="string" resultType="integer">
+        select count(1) from user where pname=#{pname}
+    </select>
+    <select id="findByUsername" parameterType="string" resultMap="UserMap">
+        select * from user where username=#{username}
+    </select>
+    <select id="findByToken" parameterType="string" resultMap="UserMap">
+        select * from user where token=#{token}
+    </select>
+    <select id="findById" parameterType="integer" resultMap="UserMap">
+        select * from user where id=#{pid}
+    </select>
+    <select id="findAllUser" resultMap="UserMap">
+        select * from user
+    </select>
+    <update id="updateUser" parameterType="string">
+        update user set token=#{token} where username=#{username}
+    </update>
+
+
+    <insert id="insertMessage" parameterType="com.house.rent.model.Message">
+        insert into message(pid,messagebody,ptime,rid,state)
+        values(#{pid},#{messagebody},#{ptime},#{rid},#{state})
+    </insert>
+    <select id="findMessage" parameterType="integer" resultType="com.house.rent.model.Message">
+        select * from message where rid = #{rid} order by ptime desc
+    </select>
+    <select id="findNotReadMessageIds" parameterType="integer" resultType="integer">
+        select id from message where rid = #{rid} and state = 0
+    </select>
+    <select id="notReadMessageCount" parameterType="integer" resultType="integer">
+        select count(*) from message where rid = #{rid} and state = 0
+    </select>
+    <update id="updateMessageState" parameterType="collection">
+        update message set state = 1 where id in (
+        <foreach collection="ids" item="id" index="index" separator=",">
+            #{id}
+        </foreach>)
+    </update>
+    <select id="findRidByHid" resultType="integer" parameterType="integer">
+        select uid from order_house where hid = #{hid}
+    </select>
+</mapper>

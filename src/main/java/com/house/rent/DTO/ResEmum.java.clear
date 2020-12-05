@@ -1,0 +1,29 @@
+package com.house.rent.DTO;
+
+/**
+ * @author yangHao
+ * @version v1.0
+ * @input 列出组件的输入, 竖线|分割
+ * @output 列出组件的输出, 竖线|分割
+ * @date 2020/8/8
+ * @modify
+ */
+public enum ResEmum {
+    SUCCESS(200,"success"),
+    FAIL(201,"fail");
+    private Integer code;
+    private String desc;
+
+    public Integer getCode() {
+        return code;
+    }
+
+    public String getDesc() {
+        return desc;
+    }
+
+    ResEmum(Integer code, String desc) {
+        this.code = code;
+        this.desc = desc;
+    }
+}

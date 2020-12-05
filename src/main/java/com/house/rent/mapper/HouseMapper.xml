@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.house.rent.mapper.HouseMapper" >
+    <resultMap id="HouseMap" type="com.house.rent.model.House">
+        <id column="hid" property="hid" jdbcType="INTEGER"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="address_city" property="addressCity" jdbcType="VARCHAR"/>
+        <result column="address_qx" property="addressQx" jdbcType="VARCHAR"/>
+        <result column="address_jd" property="addressJd" jdbcType="VARCHAR"/>
+        <result column="money" property="money" jdbcType="VARCHAR"/>
+        <result column="area" property="area" jdbcType="VARCHAR"/>
+        <result column="xqname" property="xqname" jdbcType="VARCHAR"/>
+        <result column="model" property="housemodel" jdbcType="VARCHAR"/>
+        <result column="czfs" property="czfs" jdbcType="VARCHAR"/>
+        <result column="cx" property="cx" jdbcType="VARCHAR"/>
+        <result column="tag" property="tag" jdbcType="VARCHAR"/>
+        <result column="pt_chuang" property="ptChuang" jdbcType="INTEGER"/>
+        <result column="pt_xyj" property="ptXyj" jdbcType="INTEGER"/>
+        <result column="pt_kt" property="ptKt" jdbcType="INTEGER"/>
+        <result column="pt_bx" property="ptBx" jdbcType="INTEGER"/>
+        <result column="pt_wsj" property="ptWsj" jdbcType="INTEGER"/>
+        <result column="pt_kzf" property="ptKzf" jdbcType="INTEGER"/>
+        <result column="dt" property="dt" jdbcType="INTEGER"/>
+        <result column="picture" property="picture" jdbcType="VARCHAR"/>
+        <result column="publish_time" property="publishTime" jdbcType="DATE"/>
+        <result column="pid" property="pid" jdbcType="INTEGER"/>
+
+    </resultMap>
+    <insert id="addHouse" parameterType="com.house.rent.model.House">
+        insert into house(name,address_city,address_qx,address_jd,money,area,xqname,model,czfs,cx,tag,
+        pt_chuang,pt_xyj,pt_kt,pt_bx,pt_wsj,pt_kzf,dt,picture,publish_time,pid,state)
+        values (#{name},#{addressCity},#{addressQx},#{addressJd},#{money},#{area},#{xqname},#{housemodel},
+        #{czfs},#{cx},#{tag},#{ptChuang},#{ptXyj},#{ptKt},#{ptBx},#{ptWsj},#{ptKzf},#{dt},#{picture},#{publishTime},
+        #{pid},#{state})
+    </insert>
+    <select id="findHouse" resultMap="HouseMap">
+        select * from house where 1=1
+            <if test="house.addressCity !=null and house.addressCity!=''">
+                and address_city like concat('%',#{house.addressCity},'%')
+            </if>
+            <if test="house.xqname !=null and house.xqname!=''">
+                and xqname like concat('%',#{house.xqname},'%')
+            </if>
+            <if test="house.addressQx !=null and house.addressQx!=''">
+                and address_qx like concat('%',#{house.addressQx},'%')
+            </if>
+            <if test="moneyqj !=null">
+                and money between #{moneyqj[0]} and #{moneyqj[1]}
+            </if>
+            <if test="house.housemodel !=null and house.housemodel!=''">
+                and model like concat('%',#{house.housemodel},'%')
+            </if>
+            <if test="house.czfs !=null and house.czfs!=''">
+                and czfs like concat('%',#{house.czfs},'%')
+            </if>
+            <if test="house.cx !=null and house.cx!=''">
+                and cx like concat('%',#{house.cx},'%')
+            </if>
+            <if test="house.tag !=null and house.tag!=''">
+                and tag = #{house.tag}
+            </if>
+            <if test="house.dt !=null">
+                and dt = #{house.dt}
+            </if>
+            <if test="house.state !=null">
+                and state = #{house.state}
+            </if>
+            <if test="pxList != null">
+                order by ${pxList[0]} ${pxList[1]}
+            </if>
+            <if test="page !=null and size!=null">
+                limit #{page},#{size}
+            </if>
+    </select>
+    <select id="findAllHouse" resultMap="HouseMap">
+        select * from house
+    </select>
+    <select id="findPidByHid" resultType="integer">
+        select pid from house where hid = #{hid}
+    </select>
+    <select id="findHouseByIdAndState" resultMap="HouseMap">
+        select * from house where 1=1
+        <if test="house.state !=null">
+            and state = #{house.state}
+        </if>
+        <if test="house.pid !=null">
+            and pid = #{house.pid}
+        </if>
+    </select>
+    <select id="findHouseByOrder" resultMap="HouseMap">
+        SELECT h.* from house h
+        LEFT JOIN order_house o on h.hid = o.hid
+        where h.state = #{house.state} and o.uid = #{house.pid}
+    </select>
+    <select id="getTotal" resultType="java.lang.Long">
+        select count(*) from house where 1=1
+        <if test="house.addressCity !=null and house.addressCity!=''">
+            and address_city like concat('%',#{house.addressCity},'%')
+        </if>
+        <if test="house.name !=null and house.name!=''">
+            and name like concat('%',#{house.name},'%')
+        </if>
+        <if test="house.addressQx !=null and house.addressQx!=''">
+            and address_qx like concat('%',#{house.addressQx},'%')
+        </if>
+        <if test="moneyqj !=null">
+            and money between #{moneyqj[0]} and #{moneyqj[1]}
+        </if>
+        <if test="house.housemodel !=null and house.housemodel!=''">
+            and model like concat('%',#{house.housemodel},'%')
+        </if>
+        <if test="house.czfs !=null and house.czfs!=''">
+            and czfs like concat('%',#{house.czfs},'%')
+        </if>
+        <if test="house.cx !=null and house.cx!=''">
+            and cx like concat('%',#{house.cx},'%')
+        </if>
+        <if test="house.tag !=null and house.tag!=''">
+            and tag = #{house.tag}
+        </if>
+        <if test="house.state !=null">
+            and state = #{house.state}
+        </if>
+        <if test="house.dt !=null and house.dt!=''">
+            and dt = #{house.dt}
+        </if>
+    </select>
+    <insert id="addorder" parameterType="com.house.rent.model.Order">
+        insert into order_house(uid,hid) VALUES (#{uid},#{hid})
+    </insert>
+    <update id="updateHouse" parameterType="integer">
+        update house
+        <set>
+            <if test="state != null">
+                state = #{state},
+            </if>
+        </set>
+        where hid = #{hid}
+    </update>
+    <update id="updateHouseInfo" parameterType="com.house.rent.model.House">
+        update house
+        <set>
+            <if test="house.name != null">
+                name = #{house.name},
+            </if>
+            <if test="house.addressCity != null">
+                address_city = #{house.addressCity},
+            </if>
+            <if test="house.addressQx != null">
+                address_qx = #{house.addressQx},
+            </if>
+            <if test="house.addressJd != null">
+                address_jd = #{house.addressJd},
+            </if>
+            <if test="house.money != null">
+                money = #{house.money},
+            </if>
+            <if test="house.area != null">
+                area = #{house.area},
+            </if>
+            <if test="house.xqname != null">
+                xqname = #{house.xqname},
+            </if>
+            <if test="house.housemodel != null">
+                model = #{house.housemodel},
+            </if>
+            <if test="house.czfs != null">
+                czfs = #{house.czfs},
+            </if>
+            <if test="house.cx != null">
+                cx = #{house.cx},
+            </if>
+            <if test="house.tag != null">
+                tag = #{house.tag},
+            </if>
+            <if test="house.ptChuang != null">
+                pt_chuang = #{house.ptChuang},
+            </if>
+            <if test="house.ptXyj != null">
+                pt_xyj = #{house.ptXyj},
+            </if>
+            <if test="house.ptKt != null">
+                pt_kt = #{house.ptKt},
+            </if>
+            <if test="house.ptBx != null">
+                pt_bx = #{house.ptBx},
+            </if>
+            <if test="house.ptWsj != null">
+                pt_wsj = #{house.ptWsj},
+            </if>
+            <if test="house.ptKzf != null">
+                pt_kzf = #{house.ptKzf},
+            </if>
+            <if test="house.dt != null">
+                dt = #{house.dt},
+            </if>
+            <if test="house.picture != null">
+                picture = #{house.picture},
+            </if>
+            <if test="house.state != null">
+                state = #{house.state},
+            </if>
+        </set>
+        where hid = #{house.hid}
+    </update>
+    <delete id="deleteHouseByHid" parameterType="integer">
+        delete from house where hid = #{hid}
+    </delete>
+    <delete id="deleteOrder" parameterType="integer">
+        delete from order_house where hid = #{hid}
+    </delete>
+</mapper>

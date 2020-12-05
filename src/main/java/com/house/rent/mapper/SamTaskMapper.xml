@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.house.rent.mapper.SamTaskMapper" >
+    <resultMap id="ZsResponseMap" type="com.house.rent.model.ZsResponse">
+        <result column="TASK_TYPE" property="modelName" jdbcType="VARCHAR"/>
+        <result column="TASK_ID" property="modelId" jdbcType="VARCHAR"/>
+        <result column="TASK_NAME" property="subject" jdbcType="VARCHAR"/>
+        <result column="CREATE_TIME" property="createTime" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="ZsRes">
+        TASK_TYPE,TASK_ID,TASK_NAME,CREATE_TIME
+    </sql>
+    <select id="find" resultMap="ZsResponseMap">
+        SELECT <include refid="ZsRes"/>
+        FROM SAM_TASK
+    </select>
+
+</mapper>

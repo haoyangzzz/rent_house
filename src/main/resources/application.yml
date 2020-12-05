@@ -1,0 +1,38 @@
+server.port: 8081
+
+spring:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    username: root
+    password: root
+    url: jdbc:mysql://localhost:3306/rent?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+  mail:
+    username: xxxxxxxxx@qq.com
+    password: xxxxxxxxx #QQ邮箱开通第三方登录的授权码
+    host: smtp.qq.com
+    properties:
+      mail:
+        smtp:
+          enable: true
+  rabbitmq:
+    username: guest
+    password: guest
+    host: localhost
+    port: 5672
+    publisher-confirms: true #消息发送到交换机确认机制,是否确认回调
+    publisher-returns: true  #消息发送到交换机确认机制,是否返回回馈
+
+cache:
+  redis:
+    enabled: true
+    encryption: false
+    userCluster: false
+    hosts: localhost
+    port: 6379
+    maxIdle: 10
+    maxWait: 1000000
+    maxConnection: 500
+    userName:
+    password:
+#logging.config= classpath:log4j2-spring.xml
+#mybatis.configuration.log-impl=com.house.rent.utils.SlefLog

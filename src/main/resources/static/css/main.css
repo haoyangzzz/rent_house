@@ -1,0 +1,45 @@
+
+.form-group{
+	margin: 15px 15px 20px 15px;
+}
+.btn-login{
+	margin: 0 300px 25px;
+}
+.btns{
+	    margin-top: 50px;
+    margin-left: 30px;
+}
+
+.form-groups{
+	float:left;
+}
+#form_contrainer .form-group{
+	margin: 40px 15px 20px 15px;
+	overflow: hidden;
+}
+.shadow{
+	overflow: hidden;
+	position: absolute;
+	width: 100%;
+	background: rgba(0,0,0,0.7)
+}
+.dialog{
+    margin: 12% auto;
+    border-left: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+    width: 700px;
+    border-radius: 5px;
+    background: #fff;
+}
+.panel-defaults{
+	border-left: none;
+	border-right: none;
+}
+.control-label{
+    margin-top: 7px;
+    font-size: 16px;
+}
+.pagination>.active>a,.pagination>.active>a:hover{
+	z-index: 0;
+}

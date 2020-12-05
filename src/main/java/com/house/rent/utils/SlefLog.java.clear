@@ -1,0 +1,44 @@
+package com.house.rent.utils;
+
+public class SlefLog implements org.apache.ibatis.logging.Log{
+    //必须有一个构造函数时字符串参数的
+    //Mybatis创建日志类时会调用一个字符串的构造函数
+    public SlefLog(String s){
+        System.out.println(s);
+    }
+    //是否开启Debug
+    @Override
+    public boolean isDebugEnabled() {
+        return true;
+    }
+    //是否开启Trace
+    @Override
+    public boolean isTraceEnabled() {
+        return true;
+    }
+
+    @Override
+    public void error(String s, Throwable throwable) {
+        System.out.println(s);
+    }
+
+    @Override
+    public void error(String s) {
+        System.out.println(s);
+    }
+    //SQL调试日志
+    @Override
+    public void debug(String s) {
+        System.out.println(s);
+    }
+
+    @Override
+    public void trace(String s) {
+        System.out.println(s);
+    }
+
+    @Override
+    public void warn(String s) {
+        System.out.println(s);
+    }
+}
